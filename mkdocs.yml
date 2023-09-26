@@ -1,0 +1,8 @@
+site_name: EDB Postgres for Kubernetes workshop
+site_url: https://workshop-edbuser15.apps.sno.thuisnet.lan
+docs_dir: docs
+
+nav:
+  - Home: README.md
+  - Cluster Requirements: cluster_requirements.md
+  - Chapter Three: chapter_three.md
