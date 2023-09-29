@@ -10,6 +10,9 @@ If you are setting up this workshop as an EDB employee, or workshop instructor, 
 
 ## Workshop outline
 
+# Chapter one: getting started with a simple database
+# Chapter two: creating a replicated cluster
+
 1. Concepts of Postgres on Kubernetes & requirements
 2. Installing the operator on OpenShift
 3. Creating your first Postgres cluster on Kubernetes
