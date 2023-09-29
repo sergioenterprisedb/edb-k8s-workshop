@@ -215,7 +215,8 @@ maintenance database (the database called `postgres`) and the application databa
 (called `app` by default) are stored.
 
 You can see the password of the postgres user for the postgres database by running:
-```
+
+```bash
 kubectl get secret my-first-cluster-superuser -o jsonpath='{.data.password}' | base64 --decode
 ```
 
@@ -231,7 +232,8 @@ Ok, now let's look at the cluster at the Postgres level. In order to have a litt
 more to look at, let's scale the cluster to two nodes first.
 
 In the web terminal, run the following command:
-```
+
+```bash
 kubectl scale cluster my-first-cluster --replicas=2
 ```
 
@@ -247,7 +249,7 @@ the output again!
 The cnp plugin for `kubectl` and `oc` has a builtin shortcut to connect to the database
 with the `psql` command. In order to connect to the primary database, just run:
 
-```
+```bash
 kubectl cnp psql my-first-cluster -- -U postgres
 ```
 
@@ -256,7 +258,8 @@ commands. Try some now. If you are new to Postgres, here are some things you can
 
 Try running some meta commands and simple SQL to see this database is just like any
 other Postgres database, just more agile :)
-```
+
+```sql
 \l
 \c app
 create table foo (id serial primary key, bar varchar(10) not null);
@@ -268,7 +271,8 @@ drop table foo;
 
 All of these commands should work just fine, and will be replicated to the replica. You
 can verify by disconnecting (CTRL-D) running:
-```
+
+```sql
 kubectl cnp psql --replica my-first-cluster
 \c app
 select * from foo;
@@ -283,7 +287,7 @@ You can verify that the `psql` connection you set up in this section is to a pri
 a replica by running the following query. If you can a 't', you are connected to
 a replica, if you get an 'f', you are connected to the primary:
 
-```
+```sql
 select pg_is_in_recovery();
 ```
 
