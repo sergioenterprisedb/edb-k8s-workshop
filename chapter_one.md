@@ -21,7 +21,7 @@ following URLs are important for this lab:
 
  - sign-up / username sheet: 
  - OpenShift console: 
- - Postgres cheatsheet: 
+ - [Postgres cheatsheet](https://www.postgresqltutorial.com/postgresql-cheat-sheet/)
 
 The ROSA cluster is made up of three x86_64 EC2 worker nodes. 
 
