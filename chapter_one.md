@@ -71,7 +71,7 @@ Kubernetes. We will be using it often during this course. You can minimize the w
 terminal with the _ symbol in the top right corner.
 
 From this point on, we'll use `kubectl` in our examples, but feel free to use `oc` and
-save a few character on every command. Just type `oc` where we use `kubectl` and all
+save a few characters on every command. Just type `oc` where we use `kubectl` and all
 will work just fine.
 
 In the left hand-menu, switch from the 'Administrator' perspective to the 'Developer'
@@ -257,13 +257,13 @@ Boom. We now have a connection to the primary of the cluster, and we're able to 
 commands. Try some now. If you are new to Postgres, here are some things you can do.
 
 Try running some meta commands and simple SQL to see this database is just like any
-other Postgres database, just more agile :)
+other Postgres database, just a bit more agile :)
 
 ```sql
 \l
 \c app
 create table foo (id serial primary key, bar varchar(10) not null);
-insert into foo (bar) values ('meh');
+insert into foo (bar) values ('baz');
 select * from foo;
 \d foo
 drop table foo;
@@ -280,7 +280,7 @@ select * from foo;
 The above commands will connect to the fist (and, in our case, only) replica and run the
 same query as we ran on the primary. We should get the same result.
 
-In short, the CNPG operator just gave you SSL-encrypted (hence, secure) and automated
+In short, the CNPG operator just gave you automated and SSL-encrypted (hence, secure)
 replication and high availabiltiy of your Postgres databases. How cool is that?
 
 You can verify that the `psql` connection you set up in this section is to a primary or
@@ -298,9 +298,8 @@ my-first-cluster`. If you have the list of Pods open above your web terminal, yo
 the `my-first-cluster-1` pod disappear immediately. To check whether the cluster is
 really gone, type `kubectl cnp status my-first-cluster`.
 
-## Some important links
+## Additional documentation
 
-Documentation:
 - [EDB Postgres for
     Kubernetes](https://www.enterprisedb.com/docs/postgres_for_kubernetes/latest/)
 - [Cloud-Native Postgres](https://cloudnative-pg.io/documentation/1.20/)

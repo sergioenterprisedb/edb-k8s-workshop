@@ -10,7 +10,7 @@ If you are setting up this workshop as an EDB employee, or workshop instructor, 
 
 ## Workshop outline
 
-# Chapter one: getting started with a simple database
+# [Chapter one: getting started with a simple database](chapter_one.md)
 # Chapter two: creating a replicated cluster
 
 1. Concepts of Postgres on Kubernetes & requirements
