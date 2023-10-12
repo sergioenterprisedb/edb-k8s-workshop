@@ -20,6 +20,11 @@ AWS), installing OpenShift should just need:
 openshift-install create cluster
 ```
 
+```
+!! Do not remove the directory you are running the installer in,
+!! nor any of its artifacts until after you delete the cluster again
+```
+
 In the questionnaire that follows, make the following selections:
   
   - the SSH key that you want to use. Your default key (in `~/.ssh/id_rsa.pub`) should be fine. 
@@ -33,15 +38,25 @@ Installation should start now. It will end by passing you a console URL and a ku
 
 Go to the console URL, and log into the console as kubeadmin with the password you just received. 
 
-Download the CLI tool (called `oc`, an extended version of `kubectl`) through the question mark icon (top right of the screen) and drop it somewhere in your path. 
+Download the CLI tool (called `oc`, an extended version of `kubectl`) through the question mark icon (top right of the screen, click it, select `Command line tools`), untar it, and drop the `oc` binary somewhere in your path. 
 
 Click on the `kube:admin` username in the top right and select `copy login command`. Then, click `Display token`, copy the command and paste it into a terminal. Hit Enter. You are now logged into OpenShift. Any subsequent commands you can execute through either `oc` or `kubectl`. 
+
+----
+
+Alternatively to copying the login command, you can run the following command in the in the directory that you started the `openshift-install` command from: 
+```
+export KUBECONFIG=PATH_TO_YOUR_INSTALL_DIRECTORY/auth/kubeconfig
+```
+
+The exact & correct command for this export will be in the `openshift-install` output. Just copy and paste it. This sets up your commandline tools (oc and kubectl) to connect to the cluster with kubeadmin privileges.
+
 
 ## Clone the GitOps repo
 Run:
 
 ```
-git clone https://github.com/maxim-edb/cluster-config
+git clone git@github.com:maxim-edb/edb-k8-workshop.git
 ```
 
 To fetch the GitOps repo. Enter the `cluster-config` directory and switch the branch to `aws`:
@@ -74,8 +89,16 @@ Wait until the installation of the GitOps operator on OpenShift is completely do
 oc get route -n openshift-gitops
 ```
 
-When the installations has completed, the output looks like:
+When the installations has completed, the output looks something like:
 
+```bash
+oc get route -n openshift-gitops
+NAME                      HOST/PORT                                                               PATH   SERVICES                  PORT    TERMINATION            WILDCARD
+kam                       kam-openshift-gitops.apps.maxim.edb.ocp.wzzrd.com                              kam                       8443    passthrough/None       None
+openshift-gitops-server   openshift-gitops-server-openshift-gitops.apps.maxim.edb.ocp.wzzrd.com          openshift-gitops-server   https   passthrough/Redirect   None
+```
+
+Make note of the `openshift-gitops-server` route. Copy the HOST/PORT part into your browser and nagivate to it.
 
 ## Setting up the workshop
 
@@ -124,16 +147,28 @@ In order to do that, we need to perform three small tasks. First, we log into th
 oc get route -n openshift-gitops
 ```
 
-Log into that console with the kubeadmin account (click "Log in using OpenShift"). Click the `cluster-configs-grafana` tile. On the next page (you'll see an error), click `App details` in the top left corner.
+Log into that console with the kubeadmin account (click "Log in via OpenShift"). Click the `cluster-configs-grafana` tile. On the next page (you'll see an error), click `App details` in the top left corner.
 
-Go to the parameters tab. Click `edit`. Add a parameter called `prometheus-token` with `foobar` as its value. Save and close the page.
+Go to the parameters tab. Click `edit`. Add an external variable called `prometheus-token` with `foobar` as its value. Save and close the page.
 
-The error disappears now and you'll see resources being created. When this is done, on your terminal, run:
+The error will disappear now, and you'll see resources being created. When this is done, on your terminal, run:
 
 ```
 oc create token grafana-edbuser15-tools-sa --duration=8760h -n edbuser15-tools
 ```
 
+Note: when `Sync status` is `Synced`, all resources have been successfully created.
+
 This outputs a looong string. Copy the string and paste it as the value of the `prometheus-token` parameter you just created, instead of `foobar`. 
 
-That's it. You are now done. Go grab yourself a coffee.
+That's it. You are now done. Go grab yourself a coffee. 
+
+## Deleting
+
+From the same directory from where you ran `openshift-install` to install the cluster (this is why you should not remove it after installing!!), run: 
+
+```
+openshift-install destroy cluster
+```
+
+Wait for five minutes. Do not shut down your machine until this is done, as the installer runs from your machine.
