@@ -11,16 +11,25 @@ If you are setting up this workshop as an EDB employee, or workshop instructor, 
 ## Workshop outline
 
 1. Concepts of Postgres on Kubernetes & requirements
-2. Installing the operator on OpenShift
-3. Creating your first Postgres cluster on Kubernetes
-4. Configuring additional options:  
-	1. Creating backup configuration
-	2. Backing up your database
-	3. Creating a backup schedule
-	4. Configuring the database itself
-5. Performing a Postgres minor update
-6. Configuring RBAC
-7. Installing and using the `kubectl cnp` plugin
-8. Creating and configuring the PodMonitor object
-9. Forcing a failover by killing a pod
-10. Create a second cluster based on an existing backup
+2. Creating your first Postgres cluster on Kubernetes
+    1. Creating a single node cluster
+    2. Using the `kubectl cnp` plugin to view cluster status
+    3. Setting up replication / scaling out
+    4. Switching over the primary to one of the replicas
+    5. Configuring WAL storage
+    6. Using the `kubectl cnp` plugin to connect to the database
+3. Configuring automatic backups
+    1. Ingesting data into your cluster
+	2. Creating backup configuration
+	3. Backing up your database
+	4. Creating a backup schedule
+	5. Restoring an old copy of the database
+4. Performing a Postgres minor update
+    1. Inspecting available Postgres images
+    2. Chosing an update policy
+    3. Performing a minor version rolling update
+5. Advanced configuration
+    1. Implementing a GUC change
+    2. Cluster hibernation
+    3. Recovering from a failed replica
+    4. Recovering from a failed primary
