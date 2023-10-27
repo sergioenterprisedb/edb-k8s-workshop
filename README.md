@@ -1,8 +1,8 @@
-These are the documentation files for running a cloud-native postgres workshop on
-Kubernetes.
+# EDB Postgres on OpenShift workshop
 
-Use the Python [mkdocs program](https://www.mkdocs.org/) to generate the docs, and
-`podman build -t TAG -f Containerfile .` to build a container image from it.
+## What is this?
+
+This workshop is meant to introduce you to running Postgres databases on OpenShift through the EDB Postgres for Kubernetes operator.
 
 This is not an introductory workshop on Postgres. It is purely focused on running Postgres on OpenShift, how the EPG4K operator can help you do that, and what the possibilities are.
 
