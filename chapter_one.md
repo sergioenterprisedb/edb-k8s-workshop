@@ -270,7 +270,6 @@ create table foo (id serial primary key, bar varchar(10) not null);
 insert into foo (bar) values ('baz');
 select * from foo;
 \d foo
-drop table foo;
 ```
 
 All of these commands should work just fine, and will be replicated to the replica. You can verify by disconnecting (CTRL-D) running:
