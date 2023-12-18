@@ -191,10 +191,11 @@ Ok, let's create this cluster and verify how changing GUC parameters works. Appl
 After a few minutes, the list of pods in your `edbuserXX` namespace should look like the screenshot below.
 
 
+Open the web terminal again (if you haven't got it open already), and have it display the cluster configuration by typing `kubectl cnp psql more-robust-cluster-edbuserXX -- -U postgres`. In the psql session you are now in, type `show work_mem`. This should output "4MB":
 
-Open the web terminal again (if you haven't got it open already), and have it display the cluster configuration by typing `kubectl cnp psql more-robust-cluster-edbuserXX -- -U postgres`. In the psql session you are now in, type `show work_mem`. This should output "4MB".
 
-Get the time when the primary pod was started, by typing the following into your web terminal: `kubectl describe pod more-robust-cluster-edbuserXX | grep -A 1 "State:.*Running"`. This shows a timestamp for when the primary pod of your cluster was started. 
+Get the time when the primary pod was started, by typing the following into your web terminal: `kubectl describe pod more-robust-cluster-edbuserXX | grep -A 1 "State:.*Running"`. This shows a timestamp for when the primary pod of your cluster was started, as in the screenshot:
+
 
 Ok, now we'll change the `work_mem` setting. We'll see that the operator executed a `pg_ctl reload` under the hood and not a complete restart of the cluster. 
 
