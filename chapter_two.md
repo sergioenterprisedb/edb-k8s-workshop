@@ -36,10 +36,10 @@ spec:
   imageName: quay.io/enterprisedb/postgresql:15.2
   storage:
     size: 1Gi
-    storageClass: default
+    storageClass: gp3-csi
   walStorage:
     size: 1Gi
-    storageClass: default
+    storageClass: gp3-csi
 ```
 
 As you can see, we have added two lines at the end to set up a second persistent volume for walStorage. This volume, like the one for PGDATA, uses the default storage class. If you want a non-default storage class, you can change the `storageClass` field to the name of you desired storage class name.
@@ -62,10 +62,10 @@ spec:
   imageName: quay.io/enterprisedb/postgresql:15.2
   storage:
     size: 1Gi
-    storageClass: default
+    storageClass: gp3-csi
   walStorage:
     size: 1Gi
-    storageClass: default
+    storageClass: gp3-csi
   postgresql:
     parameters:
       work_mem: "4MB"
@@ -93,10 +93,10 @@ spec:
   maxSyncReplicas: 1
   storage:
     size: 1Gi
-    storageClass: default
+    storageClass: gp3-csi
   walStorage:
     size: 1Gi
-    storageClass: default
+    storageClass: gp3-csi
   postgresql:
     parameters:
       work_mem: "4MB"
@@ -133,10 +133,10 @@ spec:
   primaryUpdateMethod: restart
   storage:
     size: 1Gi
-    storageClass: default
+    storageClass: gp3-csi
   walStorage:
     size: 1Gi
-    storageClass: default
+    storageClass: gp3-csi
   postgresql:
     parameters:
       work_mem: "4MB"
@@ -166,10 +166,10 @@ spec:
   primaryUpdateMethod: restart
   storage:
     size: 1Gi
-    storageClass: default
+    storageClass: gp3-csi
   walStorage:
     size: 1Gi
-    storageClass: default
+    storageClass: gp3-csi
   postgresql:
     parameters:
       work_mem: "4MB"
