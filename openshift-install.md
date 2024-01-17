@@ -3,16 +3,16 @@ This document describes setting up an OpenShift cluster on AWS for the EDB Postg
 
 ## Topics
 
-1. Prepare cluster installation
-2. Installing cluster
+1. Installing cluster manually
+2. Installing the cluster automatically
 3. Cloning the GitOps repo
-3. Create rolebinding
-4. Installing GitOps operator
-5. Setting up the workshop
-6. Final touches
+4. Create rolebinding
+5. Installing GitOps operator
+6. Setting up the workshop
+7. Final touches
 
 
-## Installing the cluster
+## Installing the cluster manually
 With the appropriate permissions in AWS (i.e. being a member of EDB-OpenShift-Access in
 AWS), installing OpenShift should just need:
 
@@ -30,8 +30,9 @@ In the questionnaire that follows, make the following selections:
   - the SSH key that you want to use. Your default key (in `~/.ssh/id_rsa.pub`) should be fine. 
   - `aws` as the cloud for deployment
   - region `eu-central-1`
-  - base domain: `edb.ocp.wzzrd.com` (we'll set up something more official at a later stage in the development of this workshop)
-  - name: your first name? Or at least something we can find you by if something is wrong :)
+  - base domain: `edb.ocp.wzzrd.com` (Sergio, Borys, this needs to change to something
+      like `workshop.edb.com`!)
+  - name: use your first name
   - Finally, paste your pull secret. You can get a pull secret by going to the [Red Hat Hybrid Cloud Console](https://console.redhat.com/openshift/create/local) and selecting `Download pull secret`. You only have to do that once. Just save the pull secret between installs.
 
 Installation should start now. It will end by passing you a console URL and a kubeadmin password. Make good note of these.
@@ -51,6 +52,50 @@ export KUBECONFIG=PATH_TO_YOUR_INSTALL_DIRECTORY/auth/kubeconfig
 
 The exact & correct command for this export will be in the `openshift-install` output. Just copy and paste it. This sets up your commandline tools (oc and kubectl) to connect to the cluster with kubeadmin privileges.
 
+
+## Installing the cluster automatically
+
+Use this file below, fill in the appropriate fields, and save it as
+`install-config.yaml.orig` on your system. When you want to create a cluster, copy it to
+an empty directory, renaming it to `install-config.yaml`. This way, the questionnaire
+will be skipped during install:
+
+```yaml
+additionalTrustBundlePolicy: Proxyonly
+apiVersion: v1
+baseDomain: INSERT EDB OWNED DOMAIN HERE
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  platform: {}
+  replicas: 3
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform: {}
+  replicas: 3
+metadata:
+  creationTimestamp: null
+  name: CHANGE THIS TO YOUR NAME
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: 10.0.0.0/16
+  networkType: OVNKubernetes
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  aws:
+    region: CHANGE THIS TO THE REGION YOU WANT TO RUN IN, e.g. eu-central-1
+publish: External
+pullSecret: PASTE PULL SECRET HERE
+sshKey: |
+  PASTE YOUR SSH PUBLIC KEY HERE
+```
 
 ## Clone the GitOps repo
 Run:
@@ -94,8 +139,8 @@ When the installations has completed, the output looks something like:
 ```bash
 oc get route -n openshift-gitops
 NAME                      HOST/PORT                                                               PATH   SERVICES                  PORT    TERMINATION            WILDCARD
-kam                       kam-openshift-gitops.apps.maxim.edb.ocp.wzzrd.com                              kam                       8443    passthrough/None       None
-openshift-gitops-server   openshift-gitops-server-openshift-gitops.apps.maxim.edb.ocp.wzzrd.com          openshift-gitops-server   https   passthrough/Redirect   None
+kam                       kam-openshift-gitops.apps.sergio.workshop.edb.com                              kam                       8443    passthrough/None       None
+openshift-gitops-server   openshift-gitops-server-openshift-gitops.apps.sergio.workshop.edb.com          openshift-gitops-server   https   passthrough/Redirect   None
 ```
 
 Make note of the `openshift-gitops-server` route. Copy the HOST/PORT part into your browser and nagivate to it.
