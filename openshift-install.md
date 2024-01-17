@@ -97,6 +97,9 @@ sshKey: |
   PASTE YOUR SSH PUBLIC KEY HERE
 ```
 
+From the directory this file is in, just run `openshift-install create cluster`. No more
+questionnaire.
+
 ## Clone the GitOps repo
 Run:
 
@@ -207,6 +210,19 @@ Note: when `Sync status` is `Synced`, all resources have been successfully creat
 This outputs a looong string. Copy the string and paste it as the value of the `prometheus-token` parameter you just created, instead of `foobar`. 
 
 That's it. You are now done. Go grab yourself a coffee. 
+
+## Scaling
+
+If you want to scale beyond the three default worker nodes (you probably do), go to
+Compute -> MachineSets and for each line, click the three dot menu on the right, select
+"Edit Machine count" and insert the desired number of worker nodes. Each line on this
+screen represents an availability zone, so if you scale one line, you should probably
+scale all lines.
+
+You can follow progress on the Compute -> Machines page. Your new worker nodes are ready
+when they are listed on Compute -> Nodes with role "worker" and Status "Ready".
+
+You can scale worker nodes both up and down this way.
 
 ## Deleting
 
