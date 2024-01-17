@@ -16,14 +16,14 @@ operator. During this workshop, we'll introduce you to all the concepts and tech
 required to run a production-ready Postgres cluster on Kubernetes.
 
 ## 2. Lab infrastructure
-This lab is meant to run on a ROSA (Red Hat OpenShift on AWS) Kubernetes cluster. The
+This lab is meant to run on a Red Hat OpenShift Kubernetes cluster. The
 following URLs are important for this lab:
 
  - sign-up / username sheet: 
  - OpenShift console: 
  - [Postgres cheatsheet](https://www.postgresqltutorial.com/postgresql-cheat-sheet/)
 
-The ROSA cluster is made up of three x86_64 EC2 worker nodes. 
+The OpenShift cluster is made up of multiple x86_64 EC2 worker nodes. 
 
 ## 3. The first steps
 Like of any database cluster, the purpose of a Postgres cluster on Kubernetes is to
@@ -40,9 +40,9 @@ journey.
 
 
 Now, log into the OpenShift cluster by going to the URL mentioned in section 2 with your
-designated edbuser. You must choose `htpasswd_provider` to get to the login screen. In the top of the left-hand navigation menu, make sure it reads
-'Administrator'. If it reads 'Developer', click it and switch to the 'Administrator'
-perspective.
+designated edbuser. You must choose `htpasswd_provider` to get to the login screen. In
+the top of the left-hand navigation menu, make sure it reads 'Administrator'. If it
+reads 'Developer', click it and switch to the 'Administrator' perspective.
 
 Click 'Workloads' in the navigation menu, and then on 'Pods'. If you a get permission
 error, make sure that the 'Project' menu at the top of the page displays the name of
@@ -71,6 +71,17 @@ The `kubectl cnp` command calls a plugin for `kubectl` or `oc` (the Kubernetes a
 OpenShift command-line interfaces, respectively) to interact with Postgres clusters on
 Kubernetes. We will be using it often during this course. You can minimize the web
 terminal with the _ symbol in the top right corner.
+
+If you get the error `error: unknown command "cnp" for "oc"` or `error: unknown command
+"cnp" for "kubectl"`, you need to install the plugin real quick. 
+
+You can do that by running the following command:
+
+`curl -sSfL https://github.com/EnterpriseDB/kubectl-cnp/raw/main/install.sh | sh -s -- -b ~/.local/bin`
+
+followed by: `export PATH=~/.local/bin:$PATH`
+
+After that, `oc cnp version` and `kubectl cnp version` should work fine.
 
 From this point on, we'll use `kubectl` in our examples, but feel free to use `oc` and
 save a few characters on every command. Just type `oc` where we use `kubectl` and all
